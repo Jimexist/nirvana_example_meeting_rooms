@@ -7,18 +7,44 @@ import (
 
 	sq "github.com/Masterminds/squirrel"
 	"github.com/caicloud/nirvana/cli"
-
 	// import pq because we use Postgres driver
 	_ "github.com/lib/pq"
 )
 
-const (
-	driverName = "postgres"
-	connStr    = "connStr"
-	dbMaxOpen  = "dbMaxOpen"
-	dbMaxIdle  = "dbMaxIdle"
-	dbMaxLife  = "dbMaxLife"
-)
+const driverName = "postgres"
+
+var dbConnStr = cli.StringFlag{
+	Name:     "db-conn-str",
+	EnvKey:   "DB_CONN_STR",
+	DefValue: "postgres://postgres:@localhost:5432/postgres",
+}
+
+var dbMaxLife = cli.DurationFlag{
+	Name:     "db-max-life",
+	EnvKey:   "DB_MAX_LIFE",
+	DefValue: 1 * time.Minute,
+}
+
+var dbMaxIdle = cli.IntFlag{
+	Name:     "db-max-idle",
+	EnvKey:   "DB_MAX_IDLE",
+	DefValue: 0,
+}
+
+var dbMaxOpen = cli.IntFlag{
+	Name:     "db-max-open",
+	EnvKey:   "DB_MAX_OPEN",
+	DefValue: 36,
+}
+
+func Flags() []cli.Flag {
+	return []cli.Flag{
+		dbMaxOpen,
+		dbMaxIdle,
+		dbConnStr,
+		dbMaxLife,
+	}
+}
 
 // Connector models a connector to backend database
 type Connector struct {
@@ -27,25 +53,25 @@ type Connector struct {
 
 // NewConnector creates a new database connector
 func NewConnector() (connector *Connector, err error) {
-	if !cli.IsSet(connStr) {
-		return nil, fmt.Errorf("no %v set, abort connection", connStr)
+	if !cli.IsSet(dbConnStr.GetName()) {
+		return nil, fmt.Errorf("no %v set, abort connection", dbConnStr.GetName())
 	}
 	var db *sql.DB
-	if db, err = sql.Open(driverName, cli.GetString(connStr)); err != nil {
+	if db, err = sql.Open(driverName, cli.GetString(dbConnStr.GetName())); err != nil {
 		return nil, err
 	}
-	if cli.IsSet(dbMaxOpen) {
-		db.SetMaxOpenConns(cli.GetInt(dbMaxOpen))
+	if cli.IsSet(dbMaxOpen.GetName()) {
+		db.SetMaxOpenConns(cli.GetInt(dbMaxOpen.Name))
 	} else {
 		db.SetMaxOpenConns(36)
 	}
-	if cli.IsSet(dbMaxIdle) {
-		db.SetMaxIdleConns(cli.GetInt(dbMaxIdle))
+	if cli.IsSet(dbMaxIdle.GetName()) {
+		db.SetMaxIdleConns(cli.GetInt(dbMaxIdle.GetName()))
 	} else {
 		db.SetMaxIdleConns(0)
 	}
-	if cli.IsSet(dbMaxLife) {
-		db.SetConnMaxLifetime(cli.GetDuration(dbMaxLife))
+	if cli.IsSet(dbMaxLife.GetName()) {
+		db.SetConnMaxLifetime(cli.GetDuration(dbMaxLife.GetName()))
 	} else {
 		db.SetConnMaxLifetime(1 * time.Minute)
 	}

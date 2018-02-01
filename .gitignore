@@ -18,3 +18,4 @@
 
 # we do not store vendors, let the travis pull them in!
 /vendor/
+/bin/
