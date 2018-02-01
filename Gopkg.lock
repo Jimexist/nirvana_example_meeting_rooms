@@ -8,10 +8,18 @@
   version = "v1.0"
 
 [[projects]]
+  branch = "master"
   name = "github.com/caicloud/nirvana"
-  packages = ["cli"]
-  revision = "a6bbb1c3a2d4fe33a4a15791d20a08d1a44f06d7"
-  version = "v0.1.0-alpha.1"
+  packages = [
+    ".",
+    "cli",
+    "definition",
+    "errors",
+    "log",
+    "service",
+    "service/router"
+  ]
+  revision = "d980c7c636aad927c012fb41ea0af465ce349534"
 
 [[projects]]
   name = "github.com/davecgh/go-spew"
@@ -165,6 +173,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "9c3e009b8fc50f47acb7cbd05571b737c29ded2963511d0d2c1d32c8b6c5e1f3"
+  inputs-digest = "249b7ee7ee0a3aef694a6732caf86ccdbf7d81be90115202f730d28f34f69fa3"
   solver-name = "gps-cdcl"
   solver-version = 1

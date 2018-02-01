@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/caicloud/nirvana/cli"
 	"github.com/caicloud/nirvana/log"
+	"github.com/caicloud/nirvana_example_meeting_rooms/cmd/rooms/server"
 	"github.com/caicloud/nirvana_example_meeting_rooms/pkg/db"
 	"github.com/spf13/cobra"
 )
@@ -13,7 +14,11 @@ func main() {
 		Short: "rooms is a micro-service that handles room CRUDs",
 		Long:  "rooms is a micro-service that handles room CRUDs",
 		Run: func(cmd *cobra.Command, args []string) {
-			log.Infof("this if cool!")
+			if err := server.Run(); err != nil {
+				log.Error(err)
+			} else {
+				log.Info("server exited without an error")
+			}
 		},
 	})
 	cmd.AddFlag(db.Flags()...)
