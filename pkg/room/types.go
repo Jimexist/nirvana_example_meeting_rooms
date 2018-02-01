@@ -20,8 +20,7 @@ func findByIDSql(db squirrel.StatementBuilderType, ID int32) squirrel.SelectBuil
 		"location",
 		"created_at",
 		"updated_at",
-	).From(tableName,
-	).Where(squirrel.Eq{"id": ID})
+	).From(tableName).Where(squirrel.Eq{"id": ID})
 }
 
 func FindByID(db squirrel.StatementBuilderType, ID int32) (*Info, error) {
