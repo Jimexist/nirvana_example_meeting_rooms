@@ -1,0 +1,28 @@
+{
+  "Vendor": true,
+  "DisableAll": true,
+  "Enable": [
+    "vet",
+    "gotype",
+    "safesql",
+    "errcheck",
+    "goconst",
+    "goimports",
+    "varcheck",
+    "gas",
+    "megacheck",
+    "lll",
+    "unconvert",
+    "misspell",
+    "golint",
+    "deadcode",
+    "unconvert"
+  ],
+  "Aggregate": true,
+  "WarnUnmatchedNolint": true,
+  "LineLength": 100,
+  "Exclude": [
+    "comment or be unexported"
+  ],
+  "Deadline": "300s"
+}
