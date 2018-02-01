@@ -7,6 +7,7 @@ import (
 
 	sq "github.com/Masterminds/squirrel"
 	"github.com/caicloud/nirvana"
+	// import pq because we use Postgres driver
 	_ "github.com/lib/pq"
 )
 
@@ -63,8 +64,7 @@ func (c *Connector) NewTx() (*sql.Tx, sq.StatementBuilderType, error) {
 	tx, err := c.db.Begin()
 	if err != nil {
 		return nil, sq.StatementBuilderType{}, err
-	} else {
-		builder := sq.StatementBuilder.PlaceholderFormat(sq.Dollar).RunWith(tx)
-		return tx, builder, nil
 	}
+	builder := sq.StatementBuilder.PlaceholderFormat(sq.Dollar).RunWith(tx)
+	return tx, builder, nil
 }
