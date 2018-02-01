@@ -24,6 +24,7 @@ type Connector struct {
 	db sq.DBProxyBeginner
 }
 
+// NewConnector creates a new database connector
 func NewConnector(config nirvana.Config) (connector *Connector, err error) {
 	var db *sql.DB
 	if connStr, ok := config.Config(connStr).(string); !ok {
