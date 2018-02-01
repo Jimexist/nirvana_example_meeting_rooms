@@ -12,3 +12,9 @@
 
 # Project-local glide cache, RE: https://github.com/Masterminds/glide/issues/736
 .glide/
+
+# add Goland dir
+/.idea/
+
+# we do not store vendors, let the travis pull them in!
+/vendor/
