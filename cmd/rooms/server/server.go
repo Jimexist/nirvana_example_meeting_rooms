@@ -7,10 +7,7 @@ import (
 
 func Run() error {
 	serverConfig := nirvana.NewDefaultConfig("0.0.0.0", 8000)
-	serverConfig.Configure(func(c *nirvana.Config) error {
-		c.Descriptors = append(c.Descriptors, api.DefineVersion)
-		return nil
-	})
+	serverConfig.Configure(nirvana.Descriptor(api.DefineVersion))
 	server := nirvana.NewServer(serverConfig)
 	return server.Serve()
 }
