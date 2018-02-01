@@ -1,4 +1,4 @@
-package meeting
+package room
 
 import (
 	"testing"
@@ -20,10 +20,10 @@ func Test_findByIDSql(t *testing.T) {
 		{
 			name: "id=42",
 			args: args{
-				db: squirrel.StatementBuilder.PlaceholderFormat(squirrel.Dollar),
 				ID: 42,
+				db: squirrel.StatementBuilder.PlaceholderFormat(squirrel.Dollar),
 			},
-			want: `SELECT id, name, start_time, end_time, created_at, updated_at FROM meetings WHERE id = $1`,
+			want: `SELECT id, name, location, created_at, updated_at FROM rooms WHERE id = $1`,
 		},
 	}
 	for _, tt := range tests {
