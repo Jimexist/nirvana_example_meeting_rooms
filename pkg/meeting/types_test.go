@@ -23,7 +23,8 @@ func Test_findByIDSql(t *testing.T) {
 				db: squirrel.StatementBuilder.PlaceholderFormat(squirrel.Dollar),
 				ID: 42,
 			},
-			want: `SELECT id, name, start_time, end_time, created_at, updated_at FROM meetings WHERE id = $1`,
+			want: `SELECT id, name, start_time, end_time, created_at, updated_at ` +
+				`FROM meetings WHERE id = $1`,
 		},
 	}
 	for _, tt := range tests {
