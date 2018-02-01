@@ -6,7 +6,8 @@ import (
 	"time"
 
 	sq "github.com/Masterminds/squirrel"
-	"github.com/caicloud/nirvana"
+	"github.com/caicloud/nirvana/cli"
+
 	// import pq because we use Postgres driver
 	_ "github.com/lib/pq"
 )
@@ -25,29 +26,29 @@ type Connector struct {
 }
 
 // NewConnector creates a new database connector
-func NewConnector(config nirvana.Config) (connector *Connector, err error) {
+func NewConnector() (connector *Connector, err error) {
+	if !cli.IsSet(connStr) {
+		return nil, fmt.Errorf("no %v set, abort connection", connStr)
+	}
 	var db *sql.DB
-	if connStr, ok := config.Config(connStr).(string); !ok {
-		return nil, fmt.Errorf("cannot get `%v` from config", connStr)
-	} else if db, err = sql.Open(driverName, connStr); err != nil {
+	if db, err = sql.Open(driverName, cli.GetString(connStr)); err != nil {
 		return nil, err
 	}
-	if dbMaxOpen, ok := config.Config(dbMaxOpen).(int); !ok {
+	if cli.IsSet(dbMaxOpen) {
+		db.SetMaxOpenConns(cli.GetInt(dbMaxOpen))
+	} else {
 		db.SetMaxOpenConns(36)
-	} else {
-		db.SetMaxOpenConns(dbMaxOpen)
 	}
-	if dbMaxIdle, ok := config.Config(dbMaxIdle).(int); !ok {
+	if cli.IsSet(dbMaxIdle) {
+		db.SetMaxIdleConns(cli.GetInt(dbMaxIdle))
+	} else {
 		db.SetMaxIdleConns(0)
-	} else {
-		db.SetMaxIdleConns(dbMaxIdle)
 	}
-	if dbMaxLife, ok := config.Config(dbMaxLife).(time.Duration); !ok {
+	if cli.IsSet(dbMaxLife) {
+		db.SetConnMaxLifetime(cli.GetDuration(dbMaxLife))
+	} else {
 		db.SetConnMaxLifetime(1 * time.Minute)
-	} else {
-		db.SetConnMaxLifetime(dbMaxLife)
 	}
-
 	return &Connector{
 		db: sq.NewStmtCacheProxy(db),
 	}, nil
