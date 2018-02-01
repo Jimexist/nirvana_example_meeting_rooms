@@ -19,7 +19,10 @@ type Info struct {
 const tableName = "meetings"
 
 func findByIDSql(db squirrel.StatementBuilderType, ID int32) squirrel.SelectBuilder {
-	return db.Select("id", "name", "start_time", "end_time").From(tableName).Where(squirrel.Eq{"id": ID})
+	return db.Select(
+		"id", "name", "start_time", "end_time",
+	).From(tableName,
+	).Where(squirrel.Eq{"id": ID})
 }
 
 func FindByID(db squirrel.StatementBuilderType, ID int32) (*Info, error) {

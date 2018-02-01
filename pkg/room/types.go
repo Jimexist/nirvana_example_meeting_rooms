@@ -13,7 +13,10 @@ const tableName = "rooms"
 
 func FindByID(db squirrel.StatementBuilderType, ID int32) (*Info, error) {
 	info := &Info{}
-	err := db.Select("id", "name", "location").From(tableName).Where(squirrel.Eq{"id": ID}).QueryRow().Scan(
+	err := db.Select(
+		"id", "name", "location",
+	).From(tableName,
+	).Where(squirrel.Eq{"id": ID}).QueryRow().Scan(
 		&info.ID,
 		&info.Name,
 		&info.Location,
