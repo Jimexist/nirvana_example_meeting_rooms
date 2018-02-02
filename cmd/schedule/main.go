@@ -15,7 +15,7 @@ func main() {
 		Long:  "schedule is a micro-service that handles scheduling CRUDs",
 		Run: func(cmd *cobra.Command, args []string) {
 			if err := server.Run(); err != nil {
-				log.Error(err)
+				log.Errorf("server exited with error: %v", err)
 			} else {
 				log.Info("server exited without an error")
 			}
