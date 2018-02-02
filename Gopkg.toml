@@ -24,7 +24,13 @@
 #   go-tests = true
 #   unused-packages = true
 
+[[constraint]]
+  name = "github.com/caicloud/nirvana"
+  branch = "master"
+
+[[constrain]]
+  name = "github.com/Masterminds/squirrel"
+  version = "v1.0"
 
 [prune]
   go-tests = true
-  unused-packages = true

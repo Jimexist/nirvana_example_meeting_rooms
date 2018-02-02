@@ -5,7 +5,7 @@
 [![GoDoc](http://godoc.org/github.com/caicloud/nirvana_example_meeting_rooms?status.svg)](http://godoc.org/github.com/caicloud/nirvana_example_meeting_rooms)
 [![Go Report Card](https://goreportcard.com/badge/github.com/caicloud/nirvana_example_meeting_rooms)](https://goreportcard.com/report/github.com/caicloud/nirvana_example_meeting_rooms)
 
-An example of Nirvana framework that models meeting room booking
+An example of [Nirvana framework](https://github.com/caicloud/nirvana) that models meeting room booking
 
 ## Services and Components
 
