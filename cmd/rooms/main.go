@@ -21,8 +21,9 @@ func main() {
 			}
 		},
 	})
-	cmd.AddFlag(db.Flags()...)
-	if err := cmd.Execute(); err != nil {
+	if err := cmd.AddFlag(db.Flags()...); err != nil {
+		log.Errorf("failed to add flags: %v", err)
+	} else if err := cmd.Execute(); err != nil {
 		log.Warningf("error execution command %v", err)
 	}
 }
