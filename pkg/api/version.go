@@ -21,14 +21,15 @@ func GetVersionDescriptor(name string) definition.Descriptor {
 		Produces: []string{definition.MIMEJSON},
 		Definitions: []definition.Definition{
 			{
-				Method: definition.Get,
+				Method:      definition.Get,
+				Description: "returns version information about this service",
 				Results: []definition.Result{
 					{
 						Description: "version info",
 						Destination: definition.Data,
 					},
 				},
-				Function: func(ctx context.Context) Version {
+				Function: func(_ context.Context) Version {
 					return Version{
 						Name:    name,
 						Version: version.Version,
